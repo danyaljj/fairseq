@@ -145,7 +145,8 @@ do
   done
 
   # Remove output directory.
-  rm -rf "$TASK-bin"
+   echo " =======>  delete folder:  $TASK-bin"
+   rm -rf "$TASK-bin"
 
   DEVPREF="$TASK_DATA_FOLDER/processed/dev.LANG"
   TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
@@ -156,8 +157,10 @@ do
   fi
 
   # Run fairseq preprocessing:
+  echo ' ***** Run fairseq preprocessing **** '
   for INPUT_TYPE in $(seq 0 $((INPUT_COUNT-1)))
   do
+    echo " ------> input$INPUT_TYPE"
     LANG="input$INPUT_TYPE"
     fairseq-preprocess \
       --only-source \
@@ -168,12 +171,14 @@ do
       --workers 60 \
       --srcdict dict.txt;
   done
+  echo ' ***** if else **** '
   if [[ "$TASK" !=  "STS-B" ]]
   then
+    echo " **** /\/\/\/\/\/\/\/\/ ${DEVPREF//LANG/'label'}"
     fairseq-preprocess \
       --only-source \
       --trainpref "$TASK_DATA_FOLDER/processed/train.label" \
-      --validpref "${DEVPREF//LANG/'label'}" \
+      --validpref "${DEVPREF//LANG/label}" \
       --destdir "$TASK-bin/label" \
       --workers 60;
   else
