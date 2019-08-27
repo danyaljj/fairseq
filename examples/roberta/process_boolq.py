@@ -5,27 +5,20 @@ from glob import glob
 
 random.seed(0)
 
-def main(args):
-    for split in ['train', 'test']:
-        samples = []
-        for class_label in ['pos', 'neg']:
-            fnames = glob(os.path.join(args.datadir, split, class_label) + '/*.txt')
-            for fname in fnames:
-                with open(fname) as fin:
-                    line = fin.readline()
-                    samples.append((line, 1 if class_label == 'pos' else 0))
-        random.shuffle(samples)
-        out_fname = 'train' if split == 'train' else 'dev'
-        f1 = open(os.path.join(args.datadir, out_fname + '.input0'), 'w+')
-        f2 = open(os.path.join(args.datadir, out_fname + '.label'), 'w+')
-        for sample in samples:
-            f1.write(sample[0] + '\n')
-            f2.write(str(sample[1]) + '\n')
-        f1.close()
-        f2.close()
+def main():
+    with open("/Users/danielk/ideaProjects/fairseq/examples/roberta/glue_data/SNLI/train.tsv") as f:
+        lines = f.readlines()
+        lines_all = []
+        for line in lines:
+            split_line = line.split("\t")
+            print(len(split_line))
+            print(split_line)
+            sentence1 = split_line[7]
+            sentence2 = split_line[8]
+            label = split_line[-1]
+            lines_all.append(f"{sentence1}\t{sentence2}\t{label}")
+    with open("/Users/danielk/ideaProjects/fairseq/examples/roberta/glue_data/SNLI/train-simple.tsv", 'w+') as f:
+        f.write("".join(lines_all))
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--datadir', default='/Users/danielk/ideaProjects/fairseq/examples/aclImdb/')
-    args = parser.parse_args()
-    main(args)
+    main()

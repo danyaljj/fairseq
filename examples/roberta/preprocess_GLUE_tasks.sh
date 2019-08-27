@@ -87,6 +87,13 @@ do
     TEST_INPUT_COLUMNS=( 2 3 )
     LABEL_COLUMN=4
     INPUT_COUNT=2
+  elif [ "$TASK" = "SNLI" ]
+  then
+    SPLITS="train dev test"
+    INPUT_COLUMNS=( 1 2 )
+    TEST_INPUT_COLUMNS=( 1 2 )
+    LABEL_COLUMN=3
+    INPUT_COUNT=2
   fi
 
   # Strip out header and filter lines that don't have expected number of fields.
@@ -152,8 +159,8 @@ do
   done
 
   # Remove output directory.
-   echo " =======>  delete folder:  $TASK-bin"
-   rm -rf "$TASK-bin"
+  echo " =======>  delete folder:  $TASK-bin"
+  rm -rf "$TASK-bin"
 
   DEVPREF="$TASK_DATA_FOLDER/processed/dev.LANG"
   TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
