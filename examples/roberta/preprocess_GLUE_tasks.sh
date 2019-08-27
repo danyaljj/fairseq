@@ -86,6 +86,7 @@ do
     INPUT_COLUMNS=( 2 3 )
     TEST_INPUT_COLUMNS=( 2 3 )
     LABEL_COLUMN=4
+    INPUT_COUNT=2
   fi
 
   # Strip out header and filter lines that don't have expected number of fields.
@@ -155,13 +156,15 @@ do
    rm -rf "$TASK-bin"
 
   DEVPREF="$TASK_DATA_FOLDER/processed/dev.LANG"
-  # Daniel: commented this out only for BoolQ
-  # TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
+  TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
   if [ "$TASK" = "MNLI" ]
   then
     DEVPREF="$TASK_DATA_FOLDER/processed/dev_matched.LANG,$TASK_DATA_FOLDER/processed/dev_mismatched.LANG"
-    # Daniel: commented this out only for BoolQ
-    # TESTPREF="$TASK_DATA_FOLDER/processed/test_matched.LANG,$TASK_DATA_FOLDER/processed/test_mismatched.LANG"
+    TESTPREF="$TASK_DATA_FOLDER/processed/test_matched.LANG,$TASK_DATA_FOLDER/processed/test_mismatched.LANG"
+  elif [ "$TASK" = "BoolQ" ]
+  then
+    # no test is available
+    TESTPREF="$TASK_DATA_FOLDER/processed/dev.LANG"
   fi
 
   # Run fairseq preprocessing:
@@ -174,8 +177,7 @@ do
       --only-source \
       --trainpref "$TASK_DATA_FOLDER/processed/train.$LANG" \
       --validpref "${DEVPREF//LANG/$LANG}" \
-# Daniel: commented this out only for BoolQ
-#      --testpref "${TESTPREF//LANG/$LANG}" \
+      --testpref "${TESTPREF//LANG/$LANG}" \
       --destdir "$TASK-bin/$LANG" \
       --workers 60 \
       --srcdict dict.txt;
