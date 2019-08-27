@@ -20,6 +20,8 @@ with open('dev.tsv') as fin:
         for index, line in tqdm(enumerate(fin)):
             tokens = line.strip().split('\t')
             sent1, sent2, target = tokens[1], tokens[2], tokens[3]
+            if len(sent1) > 510:
+                sent1 = sent1[:512]
             tokens = roberta.encode(sent1, sent2)
             prediction = roberta.predict('sentence_classification_head', tokens).argmax().item()
             prediction_label = label_fn(prediction)
