@@ -5,7 +5,7 @@ from fairseq.models.roberta import RobertaModel
 roberta = RobertaModel.from_pretrained(
     '../../snli-checkpoint/',
     checkpoint_file='checkpoint_best.pt',
-    data_name_or_path='../../SNLI-simplified-bin'
+    data_name_or_path='../SNLI-simplified-bin'
 )
 
 label_fn = lambda label: roberta.task.label_dictionary.string(
