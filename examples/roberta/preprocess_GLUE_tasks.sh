@@ -155,11 +155,13 @@ do
    rm -rf "$TASK-bin"
 
   DEVPREF="$TASK_DATA_FOLDER/processed/dev.LANG"
-#  TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
+  # Daniel: commented this out only for BoolQ
+  # TESTPREF="$TASK_DATA_FOLDER/processed/test.LANG"
   if [ "$TASK" = "MNLI" ]
   then
     DEVPREF="$TASK_DATA_FOLDER/processed/dev_matched.LANG,$TASK_DATA_FOLDER/processed/dev_mismatched.LANG"
-#    TESTPREF="$TASK_DATA_FOLDER/processed/test_matched.LANG,$TASK_DATA_FOLDER/processed/test_mismatched.LANG"
+    # Daniel: commented this out only for BoolQ
+    # TESTPREF="$TASK_DATA_FOLDER/processed/test_matched.LANG,$TASK_DATA_FOLDER/processed/test_mismatched.LANG"
   fi
 
   # Run fairseq preprocessing:
@@ -172,6 +174,7 @@ do
       --only-source \
       --trainpref "$TASK_DATA_FOLDER/processed/train.$LANG" \
       --validpref "${DEVPREF//LANG/$LANG}" \
+# Daniel: commented this out only for BoolQ
 #      --testpref "${TESTPREF//LANG/$LANG}" \
       --destdir "$TASK-bin/$LANG" \
       --workers 60 \
