@@ -3,9 +3,9 @@ from tqdm import tqdm
 from fairseq.models.roberta import RobertaModel
 
 roberta = RobertaModel.from_pretrained(
-    'mnli-checkpoints/',
+    '../mnli-checkpoints/',
     checkpoint_file='checkpoint_best.pt',
-    data_name_or_path='MNLI-bin'
+    data_name_or_path='../SNLI-simplified-bin'
 )
 
 label_fn = lambda label: roberta.task.label_dictionary.string(
@@ -14,17 +14,17 @@ label_fn = lambda label: roberta.task.label_dictionary.string(
 ncorrect, nsamples = 0, 0
 roberta.cuda()
 roberta.eval()
-with open('glue_data/SNLI-simplified/dev.tsv') as fin:
+with open('dev.tsv') as fin:
     fin.readline()
-    with open('glue_data/SNLI-simplified/dev_predictions.tsv', 'w+') as fout:
+    with open('predictions/dev_predictions.tsv', 'w+') as fout:
         for index, line in tqdm(enumerate(fin)):
             tokens = line.strip().split('\t')
-            sent1, sent2, target = tokens[8], tokens[9], tokens[-1]
+            sent1, sent2, target = tokens[0], tokens[1], tokens[2]
             tokens = roberta.encode(sent1, sent2)
             prediction = roberta.predict('sentence_classification_head', tokens).argmax().item()
             prediction_label = label_fn(prediction)
             line2 = line.replace("\n", '')
-            fout.write(f"{tokens[0]}\t{sent1}\t{sent2}\t{target}\t{prediction_label}\n")
+            fout.write(f"{sent1}\t{sent2}\t{target}\t{prediction_label}\n")
             ncorrect += int(prediction_label == target)
             nsamples += 1
             # if index > 200:
