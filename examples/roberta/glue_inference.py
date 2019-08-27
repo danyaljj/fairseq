@@ -14,9 +14,9 @@ label_fn = lambda label: roberta.task.label_dictionary.string(
 ncorrect, nsamples = 0, 0
 roberta.cuda()
 roberta.eval()
-with open('glue_data/MNLI/dev_matched.tsv') as fin:
+with open('glue_data/MNLI/test_matched.tsv') as fin:
     fin.readline()
-    with open('glue_data/MNLI/dev_matched_predictions.tsv', 'w+') as fout:
+    with open('glue_data/MNLI/test_matched_predictions.tsv', 'w+') as fout:
         for index, line in tqdm(enumerate(fin)):
             tokens = line.strip().split('\t')
             sent1, sent2, target = tokens[8], tokens[9], tokens[-1]
