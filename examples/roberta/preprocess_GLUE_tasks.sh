@@ -87,7 +87,7 @@ do
     TEST_INPUT_COLUMNS=( 2 3 )
     LABEL_COLUMN=4
     INPUT_COUNT=2
-  elif [ "$TASK" = "SNLI" ]
+  elif [ "$TASK" = "SNLI-simplified" ]
   then
     SPLITS="train dev test"
     INPUT_COLUMNS=( 1 2 )

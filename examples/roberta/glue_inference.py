@@ -14,7 +14,7 @@ label_fn = lambda label: roberta.task.label_dictionary.string(
 ncorrect, nsamples = 0, 0
 # roberta.cuda()
 roberta.eval()
-with open('/Users/danielk/ideaProjects/fairseq/examples/roberta/glue_data/MNLI/dev_mismatched.tsv') as fin:
+with open('/Users/danielk/ideaProjects/fairseq/examples/roberta/glue_data/MNLI/dev_matched.tsv') as fin:
     fin.readline()
     for index, line in tqdm(enumerate(fin)):
         tokens = line.strip().split('\t')
