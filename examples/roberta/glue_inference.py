@@ -3,7 +3,7 @@ from tqdm import tqdm
 from fairseq.models.roberta import RobertaModel
 
 roberta = RobertaModel.from_pretrained(
-    '/Users/danielk/ideaProjects/fairseq/examples/roberta/mnli-checkpoints/',
+    'mnli-checkpoints/',
     checkpoint_file='checkpoint_best.pt',
     data_name_or_path='MNLI-bin'
 )
